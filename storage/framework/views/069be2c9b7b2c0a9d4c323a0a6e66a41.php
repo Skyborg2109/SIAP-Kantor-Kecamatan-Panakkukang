@@ -1,0 +1,2 @@
+<a <?php echo e($attributes->merge(['class' => 'block w-full px-4 py-2.5 text-start text-xs font-semibold text-slate-700 hover:text-indigo-600 hover:bg-slate-50 focus:outline-none focus:bg-slate-50 transition duration-150 ease-in-out cursor-pointer'])); ?>><?php echo e($slot); ?></a>
+<?php /**PATH C:\laragon\www\SIAP-Kantor-Camat-Panakkukang\resources\views/components/dropdown-link.blade.php ENDPATH**/ ?>
