@@ -1,25 +1,4 @@
 <div>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-bold text-orange-600 uppercase tracking-wider">Pemerintah Kota Makassar</p>
-                <h2 class="text-xl font-extrabold text-slate-900 leading-tight">
-                    {{ __('Panel Petugas Pelayanan') }} - Kecamatan Panakkukang
-                </h2>
-                <p class="text-xs text-slate-500 mt-0.5">Ruang Pelayanan: <span class="font-bold text-slate-700">{{ $counter->name ?? 'Tidak Ditugaskan' }}</span></p>
-            </div>
-            <div class="flex items-center gap-2">
-                <a href="{{ route('public.display') }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-orange-800 bg-orange-50 border border-orange-200 rounded-xl hover:bg-orange-100 transition shadow-2xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Monitor Antrean</span>
-                    <svg class="w-3.5 h-3.5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </x-slot>
-
     @if (session()->has('success'))
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
             <div class="flex items-center gap-3 p-4 text-sm font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-2xs">
