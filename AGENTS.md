@@ -118,6 +118,38 @@ WAITING → CALLED → SERVING → COMPLETED
 - Role-based access control in middleware and routes
 - QueueService handles business logic for queue operations (callNextQueue, recallQueue, completeQueue, skipQueue + batch variants)
 
+## Railway Deployment
+
+### Environment Variables (set in Railway dashboard)
+```env
+APP_URL=https://your-app.up.railway.app   # URL Railway Anda
+APP_ENV=production
+APP_DEBUG=false
+
+REVERB_HOST=0.0.0.0
+REVERB_PORT=8080
+REVERB_SCHEME=https
+
+VITE_REVERB_HOST=your-app.up.railway.app   # tanpa protokol
+VITE_REVERB_PORT=443
+VITE_REVERB_SCHEME=https
+```
+
+### Services Required
+- **Web App** — Laravel (Procfile sudah include: migrate + Reverb + serve)
+- **Database** — MySQL atau PostgreSQL
+
+### Procfile
+`Procfile` di root menjalankan 3 proses sekaligus:
+1. `php artisan migrate --force` — setup database
+2. `php artisan reverb:start --host=0.0.0.0 --port=8080` — WebSocket server (background)
+3. `php artisan serve --host=0.0.0.0 --port=$PORT` — web server
+
+### Common Railway Issues
+- **Tombol Livewire tidak jalan** — Pastikan `APP_URL` sesuai domain Railway, session driver `database`, dan `TRUSTED_PROXIES` sudah dikonfigurasi (sudah ditambah di `bootstrap/app.php`)
+- **WebSocket tidak connect** — Reverb harus jalan di port terpisah, pastikan `REVERB_HOST=0.0.0.0` (bukan localhost)
+- **Tampilan tidak update** — Display pakai polling fallback (`wire:poll.2s`) yang jalan tanpa WebSocket; jika polling juga tidak jalan, kemungkinan Livewire AJAX gagal (cek session/CSRF)
+
 ## Verification
 
 After making changes:

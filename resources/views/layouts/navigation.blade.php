@@ -7,7 +7,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group">
                         <img src="{{ asset('logo kota makassar.png') }}" alt="Logo Kota Makassar" class="h-9 w-auto object-contain drop-shadow-2xs transform group-hover:scale-105 transition-transform duration-200" />
-                        <img src="{{ asset('logo kecamatan panakkukang.jpg') }}" alt="Logo Kecamatan Panakkukang" class="h-9 w-auto object-contain rounded-lg shadow-2xs transform group-hover:scale-105 transition-transform duration-200" />
+                        <img src="{{ asset('logo kecamatan panakkukang.png') }}" alt="Logo Kecamatan Panakkukang" class="h-9 w-auto object-contain rounded-lg shadow-2xs transform group-hover:scale-105 transition-transform duration-200" />
                         <div class="flex flex-col">
                             <div class="flex items-center gap-1.5 leading-none">
                                 <span class="font-black text-slate-900 tracking-tight text-base">SIAP</span>

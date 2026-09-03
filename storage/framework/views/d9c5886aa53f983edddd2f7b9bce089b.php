@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" class="h-full">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" class="h-screen overflow-hidden">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +14,17 @@
 
         <!-- Scripts & Styles -->
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+        <style>
+            html, body { overflow: hidden !important; overscroll-behavior: none; scrollbar-width: none; -ms-overflow-style: none; }
+            html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+            /* Lock to viewport — 100dvh fallback for monitors */
+            html, body { height: 100vh; height: 100dvh; max-height: 100dvh; }
+            @supports (height: 100dvh) {
+                html, body { height: 100dvh; }
+            }
+        </style>
     </head>
-    <body class="font-sans antialiased text-slate-800 bg-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+    <body class="font-sans antialiased text-slate-800 bg-slate-100 h-screen overflow-hidden flex flex-col" style="height:100vh; height:100dvh; max-height:100dvh;">
         <?php echo e($slot); ?>
 
     </body>

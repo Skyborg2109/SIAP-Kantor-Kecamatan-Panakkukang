@@ -22,7 +22,7 @@
             <div class="max-w-6xl mx-auto flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <img src="{{ asset('logo kota makassar.png') }}" alt="Logo Kota Makassar" class="h-10 w-auto object-contain drop-shadow-2xs" />
-                    <img src="{{ asset('logo kecamatan panakkukang.jpg') }}" alt="Logo Kecamatan Panakkukang" class="h-10 w-auto object-contain rounded-lg shadow-2xs" />
+                    <img src="{{ asset('logo kecamatan panakkukang.png') }}" alt="Logo Kecamatan Panakkukang" class="h-10 w-auto object-contain rounded-lg shadow-2xs" />
                     <div class="border-l-2 border-slate-200 pl-3">
                         <p class="text-[10px] font-bold text-orange-600 uppercase tracking-widest leading-none">Pemerintah Kota Makassar</p>
                         <h1 class="text-sm sm:text-base font-black text-slate-900 leading-tight">Kantor Kecamatan Panakkukang</h1>
@@ -50,7 +50,7 @@
                     <div class="inline-flex items-center justify-center gap-2.5 p-3 rounded-2xl bg-white border-2 border-orange-200 shadow-sm mb-3">
                         <img src="{{ asset('logo kota makassar.png') }}" alt="Logo Kota Makassar" class="h-12 w-auto object-contain" />
                         <div class="w-px h-10 bg-slate-200"></div>
-                        <img src="{{ asset('logo kecamatan panakkukang.jpg') }}" alt="Logo Kecamatan Panakkukang" class="h-12 w-auto object-contain rounded-lg" />
+                        <img src="{{ asset('logo kecamatan panakkukang.png') }}" alt="Logo Kecamatan Panakkukang" class="h-12 w-auto object-contain rounded-lg" />
                     </div>
                     <h2 class="text-2xl font-black text-slate-900 tracking-tight">SIAP PANAKKUKANG</h2>
                     <p class="text-xs font-medium text-slate-500 mt-0.5">Sistem Informasi Antrian & Informasi Pelayanan</p>

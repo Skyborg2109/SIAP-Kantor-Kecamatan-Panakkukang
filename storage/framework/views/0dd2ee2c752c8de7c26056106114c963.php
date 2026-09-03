@@ -1,19 +1,24 @@
-<!-- Main Display Wrapper with Dual Sync (WebSockets + 2s Polling Fallback) -->
-<div class="min-h-screen bg-slate-100 flex flex-col font-sans select-none" wire:poll.2s="checkQueueUpdate">
+<!-- Public Display — locked 100dvh, no scroll, rapih -->
+<div class="flex-1 min-h-0 h-full bg-slate-100 flex flex-col font-sans select-none overflow-hidden" wire:poll.2s="checkQueueUpdate" style="height:100%; max-height:100%;">
 
-    <!-- Header Instansi Resmi (Duo Logo Kota Makassar & Kecamatan Panakkukang) -->
-    <header class="bg-slate-900 text-white px-6 py-4 shadow-md flex justify-between items-center border-b-4 border-orange-500">
-        <div class="flex items-center gap-4">
-            <img src="<?php echo e(asset('logo kota makassar.png')); ?>" alt="Logo Kota Makassar" class="h-14 w-auto object-contain drop-shadow-sm shrink-0" />
-            <img src="<?php echo e(asset('logo kecamatan panakkukang.jpg')); ?>" alt="Logo Kecamatan Panakkukang" class="h-14 w-auto object-contain rounded-xl shadow-xs shrink-0" />
-            <div class="border-l-2 border-orange-500/40 pl-4">
+    <!-- Header — shrink-0, fixed -->
+    <header class="shrink-0 bg-slate-900 text-white px-4 lg:px-6 py-3 shadow-md flex justify-between items-center border-b-4 border-orange-500 gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-2 shrink-0">
+                <img src="<?php echo e(asset('logo kota makassar.png')); ?>" alt="Logo Kota Makassar" class="h-10 lg:h-11 w-auto object-contain drop-shadow-sm shrink-0" />
+                <img src="<?php echo e(asset('logo kecamatan panakkukang.png')); ?>" alt="Logo Kecamatan Panakkukang" class="h-10 lg:h-11 w-auto object-contain rounded-lg shadow-sm shrink-0" />
+            </div>
+            <div class="hidden sm:block border-l-2 border-orange-500/30 pl-3 min-w-0">
                 <p class="text-xs font-bold text-amber-400 uppercase tracking-widest leading-none">Pemerintah Kota Makassar</p>
-                <h1 class="text-2xl font-black tracking-tight leading-tight text-white">KANTOR KECAMATAN PANAKKUKANG</h1>
+                <h1 class="text-lg lg:text-xl font-black tracking-tight leading-none text-white mt-1 truncate">KANTOR KECAMATAN PANAKKUKANG</h1>
+            </div>
+            <div class="sm:hidden min-w-0">
+                <p class="text-xs font-black leading-none text-white truncate">KANTOR KECAMATAN PANAKKUKANG</p>
             </div>
         </div>
 
-        <!-- Live Clock & Date -->
-        <div class="text-right" x-data="{ time: '', date: '' }" x-init="
+        <!-- Live Clock -->
+        <div class="text-right shrink-0" x-data="{ time: '', date: '' }" x-init="
             const updateTime = () => {
                 const now = new Date();
                 time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -22,30 +27,24 @@
             updateTime();
             setInterval(updateTime, 1000);
         ">
-            <div class="text-4xl font-extrabold font-mono tracking-tight text-white drop-shadow-sm" x-text="time">
-                <?php echo e(now()->format('H:i:s')); ?>
-
-            </div>
-            <div class="text-xs font-semibold text-orange-200 mt-0.5" x-text="date">
-                <?php echo e(now()->translatedFormat('l, d F Y')); ?>
-
-            </div>
+            <div class="text-2xl lg:text-3xl font-black font-mono tracking-tight leading-none text-white tabular-nums" x-text="time"><?php echo e(now()->format('H:i:s')); ?></div>
+            <div class="text-xs font-semibold text-orange-200 leading-none mt-1 truncate" x-text="date"><?php echo e(now()->translatedFormat('l, d F Y')); ?></div>
         </div>
     </header>
 
-    <!-- Content Area -->
-    <main class="flex-1 p-6 flex flex-col lg:flex-row gap-6 overflow-hidden">
-        
-        <!-- Left: Area Video Informasi Pelayanan (tanpa informasi panggilan antrean) -->
-        <div class="flex-1 flex flex-col gap-4">
-            <section id="video-display" class="flex-1 bg-gradient-to-br from-slate-900 via-slate-850 to-slate-950 rounded-2xl overflow-hidden shadow-md border-2 border-slate-200/15 relative flex flex-col justify-between text-white p-6 sm:p-8" aria-labelledby="video-display-heading">
-                <div class="text-center">
+    <!-- Main — flex-1, no scroll -->
+    <main class="flex-1 min-h-0 p-3 lg:p-4 flex flex-col lg:flex-row gap-3 lg:gap-4 overflow-hidden bg-slate-100">
+
+        <!-- Left: Video -->
+        <div class="flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden">
+            <section id="video-display" class="flex-1 min-h-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-2xl overflow-hidden shadow-md border border-slate-700/50 flex flex-col text-white p-4 lg:p-5 overflow-hidden" aria-labelledby="video-display-heading">
+                <div class="text-center shrink-0">
                     <p class="text-xs font-bold uppercase tracking-widest text-orange-300">Layar Informasi Pelayanan</p>
-                    <h2 id="video-display-heading" class="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-white">Tayangan Video Informasi</h2>
+                    <h2 id="video-display-heading" class="mt-1 text-lg lg:text-xl font-black tracking-tight text-white leading-none">Tayangan Video Informasi</h2>
                 </div>
 
-                <div class="flex-1 flex items-center justify-center py-4">
-                    <div class="w-full max-w-4xl aspect-video rounded-2xl overflow-hidden border border-slate-700 shadow-inner">
+                <div class="flex-1 min-h-0 flex items-center justify-center py-3 overflow-hidden">
+                    <div class="w-full max-w-4xl max-h-full aspect-video rounded-xl overflow-hidden border border-slate-700 shadow-inner bg-black shrink">
                         <iframe
                             src="https://www.youtube.com/embed/a2zz1HvpUwQ?autoplay=1&mute=1&loop=1&playlist=a2zz1HvpUwQ&controls=0&showinfo=0&rel=0&modestbranding=1"
                             class="w-full h-full"
@@ -58,16 +57,16 @@
             </section>
         </div>
 
-        <!-- Right: Panggilan KTP dan IKD ditempatkan terpisah dari layar video -->
-        <aside class="w-full lg:w-[440px] flex flex-col gap-4" aria-label="Panggilan antrean">
-            <div class="flex-1 flex flex-col gap-4">
+        <!-- Right: Queue Cards -->
+        <aside class="w-full lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-3 lg:gap-4 min-h-0 overflow-hidden" aria-label="Panggilan antrean">
+            <div class="flex-1 min-h-0 flex flex-col gap-3 lg:gap-4 overflow-hidden">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $this->serviceStatuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $serviceStatus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <?php
                         $isKtp = $serviceStatus['code'] === 'KTP';
                         $isActive = $serviceStatus['is_active'];
                     ?>
 
-                    <section id="queue-call-<?php echo e(strtolower($serviceStatus['code'])); ?>" class="flex-1 bg-white rounded-2xl shadow-md border-t-8 <?php echo e($isKtp ? 'border-orange-600' : 'border-emerald-600'); ?> border-x border-b border-slate-200 px-5 py-5 text-center transition-all duration-300 flex flex-col items-center justify-center" aria-labelledby="queue-call-<?php echo e(strtolower($serviceStatus['code'])); ?>-heading">
+                    <section id="queue-call-<?php echo e(strtolower($serviceStatus['code'])); ?>" class="flex-1 min-h-0 bg-white rounded-2xl shadow-md border-t-8 <?php echo e($isKtp ? 'border-orange-600' : 'border-emerald-600'); ?> border-x border-b border-slate-200 px-4 lg:px-5 py-4 text-center transition-all duration-300 flex flex-col items-center justify-center overflow-hidden" aria-labelledby="queue-call-<?php echo e(strtolower($serviceStatus['code'])); ?>-heading">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider <?php echo e($isKtp ? 'bg-orange-50 text-orange-800 border border-orange-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'); ?>">
                             <span class="w-2 h-2 rounded-full <?php echo e($isActive ? ($isKtp ? 'bg-orange-600 animate-pulse' : 'bg-emerald-600 animate-pulse') : 'bg-slate-400'); ?>"></span>
                             <span><?php echo e($isActive ? 'Panggilan Antrean' : 'Panggilan Terakhir'); ?> <?php echo e($serviceStatus['code']); ?></span>
@@ -79,20 +78,20 @@
                         </h2>
 
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($serviceStatus['count'] > 1): ?>
-                            <div class="grid <?php echo e($serviceStatus['count'] === 2 ? 'grid-cols-2' : 'grid-cols-3'); ?> gap-2 mt-4">
+                            <div class="grid <?php echo e($serviceStatus['count'] === 2 ? 'grid-cols-2' : 'grid-cols-3'); ?> gap-2 mt-3 w-full">
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $serviceStatus['numbers']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $number): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                    <div class="rounded-xl border <?php echo e($isKtp ? 'border-orange-200 bg-orange-50' : 'border-emerald-200 bg-emerald-50'); ?> px-2 py-2.5">
+                                    <div class="rounded-xl border <?php echo e($isKtp ? 'border-orange-200 bg-orange-50' : 'border-emerald-200 bg-emerald-50'); ?> px-2 py-2">
                                         <span class="block text-[10px] font-bold uppercase tracking-widest <?php echo e($isKtp ? 'text-orange-600' : 'text-emerald-600'); ?>">Nomor</span>
-                                        <span class="block mt-1 text-2xl font-black font-mono <?php echo e($isKtp ? 'text-orange-950' : 'text-emerald-950'); ?>"><?php echo e($number); ?></span>
+                                        <span class="block mt-1 text-xl lg:text-2xl font-black font-mono leading-none <?php echo e($isKtp ? 'text-orange-950' : 'text-emerald-950'); ?>"><?php echo e($number); ?></span>
                                     </div>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                             </div>
                         <?php else: ?>
-                            <p class="mt-4 text-8xl font-black font-mono tracking-tight <?php echo e($isKtp ? 'text-orange-950' : 'text-emerald-950'); ?>"><?php echo e($serviceStatus['display_number']); ?></p>
+                            <p class="mt-3 font-black font-mono tracking-tight leading-none <?php echo e($isKtp ? 'text-orange-950' : 'text-emerald-950'); ?>" style="font-size: clamp(2.5rem, 6vh, 4.2rem);"><?php echo e($serviceStatus['display_number']); ?></p>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                        <div class="mt-4 pt-3 border-t <?php echo e($isKtp ? 'border-orange-100' : 'border-emerald-100'); ?> w-full">
-                            <p class="text-xs font-semibold <?php echo e($isActive ? ($isKtp ? 'text-orange-700' : 'text-emerald-700') : 'text-slate-500'); ?>"><?php echo e($isActive ? 'Sedang Dilayani di Ruang Pelayanan' : $serviceStatus['status_label']); ?></p>
+                        <div class="mt-3 pt-3 border-t <?php echo e($isKtp ? 'border-orange-100' : 'border-emerald-100'); ?> w-full shrink-0">
+                            <p class="text-xs font-semibold leading-none <?php echo e($isActive ? ($isKtp ? 'text-orange-700' : 'text-emerald-700') : 'text-slate-500'); ?>"><?php echo e($isActive ? 'Sedang Dilayani di Ruang Pelayanan' : $serviceStatus['status_label']); ?></p>
                         </div>
                     </section>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
@@ -105,24 +104,35 @@
 
     </main>
 
-    <!-- Footer / Running Text Marquee -->
-    <footer class="bg-slate-900 text-white py-4 px-5 shadow-inner border-t-2 border-orange-500/60">
-        <div class="flex items-center">
-            <div class="bg-orange-500 text-slate-950 px-4 py-2 rounded-lg font-black text-sm uppercase tracking-wider whitespace-nowrap z-10 shadow-sm">
+    <!-- Footer — shrink-0, no scroll — pengumuman looping seamless tanpa jeda -->
+    <footer class="shrink-0 bg-slate-900 text-white py-3 px-4 shadow-inner border-t-2 border-orange-500/60 overflow-hidden">
+        <div class="flex items-center gap-0">
+            <div class="bg-orange-500 text-slate-950 px-4 py-2 rounded-lg font-black text-sm uppercase tracking-wider whitespace-nowrap z-10 shadow-sm shrink-0">
                 PENGUMUMAN
             </div>
-            <div class="overflow-hidden w-full relative ml-4">
-                <div class="animate-marquee whitespace-nowrap text-base text-slate-100 font-semibold">
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($this->announcements->count() > 0): ?>
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $this->announcements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ann): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                            <span class="mx-8">• <?php echo e($ann->content); ?></span>
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
-                    <?php else: ?>
-                        <span class="mx-8">• Pelayanan Kantor Kecamatan Panakkukang buka Senin s.d. Kamis pukul 07.30 - 16.00 WITA, dan di hari Jumat pukul 07.30 - 16.30 WITA</span>
-                        <span class="mx-8">• Yang Ingin Mengurus Kartu Tanda Penduduk (KTP) Bisa Langsung Mendatangi Petugas Yang ada di depan Ruang Pelayanan.</span>
-                        <span class="mx-8">• Yang Ingin Mengurus Kartu Keluarga Bisa langsung Mendatangi Petugas Yang ada di depan Ruang Pelayanan Tanpa Mengambil Nomor Antrean.</span>
-                        <span class="mx-8">• Yang Ingin Membuat atau Mendaftar Akun Aplikasi Identitas Kependudukan Digital (IKD), Harap Mendownload aplikasinya terlebih dahulu di Play Store Atau App Store, Kemudian Mengisi data hingga tahap Scan Barcode.</span>
-                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            <div class="flex-1 min-w-0 overflow-hidden relative ml-4">
+                <?php
+                    $fallbackAnnouncements = [
+                        'Pelayanan Kantor Kecamatan Panakkukang buka Senin s.d. Kamis pukul 07.30 - 16.00 WITA, dan di hari Jumat pukul 07.30 - 16.30 WITA',
+                        'Yang Ingin Mengurus Kartu Tanda Penduduk (KTP) Bisa Langsung Mendatangi Petugas Yang ada di depan Ruang Pelayanan.',
+                        'Yang Ingin Mengurus Kartu Keluarga Bisa langsung Mendatangi Petugas Yang ada di depan Ruang Pelayanan Tanpa Mengambil Nomor Antrean.',
+                        'Yang Ingin Membuat atau Mendaftar Akun Aplikasi Identitas Kependudukan Digital (IKD), Harap Mendownload aplikasinya terlebih dahulu di Play Store Atau App Store, Kemudian Mengisi data hingga tahap Scan Barcode.',
+                    ];
+                ?>
+                <div class="animate-marquee flex w-max items-center text-base text-slate-100 font-semibold whitespace-nowrap will-change-transform">
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php for($repeat = 0; $repeat < 4; $repeat++): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                        <div class="flex shrink-0 items-center" <?php if($repeat > 0): ?> aria-hidden="true" <?php endif; ?>>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($this->announcements->count() > 0): ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $this->announcements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ann): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                    <span class="mx-8">• <?php echo e($ann->content); ?></span>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+                            <?php else: ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $fallbackAnnouncements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $text): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                    <span class="mx-8">• <?php echo e($text); ?></span>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endfor; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 </div>
             </div>
         </div>
@@ -367,15 +377,16 @@
 
     <style>
         .animate-marquee {
-            display: inline-block;
-            animation: marquee 100s linear infinite;
+            display: flex;
+            width: max-content;
+            animation: marquee 80s linear infinite;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
         }
         @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
     </style>
 </div>
