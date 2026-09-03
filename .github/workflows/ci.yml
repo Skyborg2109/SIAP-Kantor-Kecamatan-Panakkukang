@@ -1,0 +1,58 @@
+name: CI & Deploy Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & Build (Laravel + Vite)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, pdo_mysql, sqlite
+          coverage: none
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install PHP deps
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install JS deps
+        run: npm ci
+
+      - name: Build Vite assets
+        run: npm run build
+
+      - name: Run tests (SQLite in-memory)
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+        run: php artisan test --compact
+
+  # Opsional: trigger Railway via Deploy Hook jika Auto Deploy via GitHub gagal.
+  # Aktifkan hanya jika Anda telah membuat Deploy Hook di Railway dan menyimpannya sebagai secret RAILWAY_DEPLOY_HOOK.
+  railway-hook:
+    name: Trigger Railway Deploy Hook
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.RAILWAY_HOOK_ENABLED == 'true'
+    steps:
+      - name: Call Railway Deploy Hook
+        env:
+          HOOK_URL: ${{ secrets.RAILWAY_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then echo "RAILWAY_DEPLOY_HOOK belum di-set, skip"; exit 0; fi
+          echo "Memanggil Railway Deploy Hook..."
+          curl -f -X POST "$HOOK_URL" && echo "Hook terkirim"
