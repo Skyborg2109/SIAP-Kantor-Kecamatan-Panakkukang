@@ -378,7 +378,7 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 80s linear infinite;
+            animation: marquee 140s linear infinite;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
