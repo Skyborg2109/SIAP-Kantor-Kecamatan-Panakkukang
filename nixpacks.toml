@@ -2,10 +2,18 @@
 nixPkgs = ["php83", "php83Packages.composer", "nodejs_22", "python3"]
 
 [phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader --no-interaction", "rm -rf bootstrap/cache/*.php", "php artisan package:discover --ansi || true", "npm ci --include=optional || npm install --include=optional"]
+cmds = [
+  "composer install --no-dev --optimize-autoloader --no-interaction",
+  "mkdir -p bootstrap/cache storage/framework/views storage/framework/cache/data storage/framework/sessions storage/logs",
+  "chmod -R 775 bootstrap/cache storage || true",
+  "rm -rf bootstrap/cache/*.php",
+  "php artisan package:discover --ansi || true",
+  "npm ci --include=optional || npm install --include=optional"
+]
 
 [phases.build]
 cmds = [
+  "mkdir -p bootstrap/cache storage/framework/views storage/framework/cache/data storage/framework/sessions storage/logs && chmod -R 775 bootstrap/cache storage || true",
   "npm run build",
   "php artisan optimize:clear --ansi || true",
   "php artisan config:clear --ansi || true",
