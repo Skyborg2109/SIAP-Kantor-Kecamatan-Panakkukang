@@ -12,7 +12,7 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class PetugasDashboard extends Component
 {
-    private const QUEUE_TYPES = ['KTP', 'IKD'];
+    private const QUEUE_TYPES = ['KTP', 'REKAM', 'IKD'];
 
     public $counter;
 

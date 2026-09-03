@@ -15,7 +15,7 @@ use Livewire\Component;
 #[Layout('layouts.display')]
 class PublicDisplay extends Component
 {
-    private const QUEUE_TYPES = ['KTP', 'IKD'];
+    private const QUEUE_TYPES = ['KTP', 'REKAM', 'IKD'];
 
     public $latestCall = null;
 

@@ -51,5 +51,14 @@ class DatabaseSeeder extends Seeder
             'procedure' => "1. Ambil antrian\n2. Menuju ruang pelayanan\n3. Aktivasi aplikasi",
             'status' => true,
         ]);
+
+        Service::create([
+            'name' => 'Perekaman KTP',
+            'code' => 'REKAM',
+            'description' => 'Layanan perekaman data e-KTP (foto, sidik jari, tanda tangan).',
+            'requirements' => "- Fotokopi KK\n- Surat Pengantar RT/RW\n- Dokumen pendukung (jika ada)",
+            'procedure' => "1. Ambil antrian Perekaman KTP\n2. Menuju ruang perekaman\n3. Verifikasi dokumen & perekaman biometrik",
+            'status' => true,
+        ]);
     }
 }

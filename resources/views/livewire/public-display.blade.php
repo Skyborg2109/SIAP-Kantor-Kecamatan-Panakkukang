@@ -62,40 +62,83 @@
             <div class="flex-1 min-h-0 flex flex-col gap-3 lg:gap-4 overflow-hidden">
                 @forelse($this->serviceStatuses as $serviceStatus)
                     @php
-                        $isKtp = $serviceStatus['code'] === 'KTP';
                         $isActive = $serviceStatus['is_active'];
+                        $color = match($serviceStatus['code']) {
+                            'KTP' => [
+                                'border' => 'border-orange-600',
+                                'badgeBg' => 'bg-orange-50',
+                                'badgeBorder' => 'border-orange-200',
+                                'badgeText' => 'text-orange-800',
+                                'dot' => 'bg-orange-600',
+                                'title' => 'text-orange-900',
+                                'number' => 'text-orange-950',
+                                'muted' => 'text-orange-700',
+                                'borderMuted' => 'border-orange-100',
+                                'borderLight' => 'border-orange-200',
+                                'bgLight' => 'bg-orange-50',
+                                'textLight' => 'text-orange-600',
+                            ],
+                            'REKAM' => [
+                                'border' => 'border-blue-600',
+                                'badgeBg' => 'bg-blue-50',
+                                'badgeBorder' => 'border-blue-200',
+                                'badgeText' => 'text-blue-800',
+                                'dot' => 'bg-blue-600',
+                                'title' => 'text-blue-900',
+                                'number' => 'text-blue-950',
+                                'muted' => 'text-blue-700',
+                                'borderMuted' => 'border-blue-100',
+                                'borderLight' => 'border-blue-200',
+                                'bgLight' => 'bg-blue-50',
+                                'textLight' => 'text-blue-600',
+                            ],
+                            default => [ // IKD
+                                'border' => 'border-emerald-600',
+                                'badgeBg' => 'bg-emerald-50',
+                                'badgeBorder' => 'border-emerald-200',
+                                'badgeText' => 'text-emerald-800',
+                                'dot' => 'bg-emerald-600',
+                                'title' => 'text-emerald-900',
+                                'number' => 'text-emerald-950',
+                                'muted' => 'text-emerald-700',
+                                'borderMuted' => 'border-emerald-100',
+                                'borderLight' => 'border-emerald-200',
+                                'bgLight' => 'bg-emerald-50',
+                                'textLight' => 'text-emerald-600',
+                            ],
+                        };
                     @endphp
 
-                    <section id="queue-call-{{ strtolower($serviceStatus['code']) }}" class="flex-1 min-h-0 bg-white rounded-2xl shadow-md border-t-8 {{ $isKtp ? 'border-orange-600' : 'border-emerald-600' }} border-x border-b border-slate-200 px-4 lg:px-5 py-4 text-center transition-all duration-300 flex flex-col items-center justify-center overflow-hidden" aria-labelledby="queue-call-{{ strtolower($serviceStatus['code']) }}-heading">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider {{ $isKtp ? 'bg-orange-50 text-orange-800 border border-orange-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200' }}">
-                            <span class="w-2 h-2 rounded-full {{ $isActive ? ($isKtp ? 'bg-orange-600 animate-pulse' : 'bg-emerald-600 animate-pulse') : 'bg-slate-400' }}"></span>
+                    <section id="queue-call-{{ strtolower($serviceStatus['code']) }}" class="flex-1 min-h-0 bg-white rounded-2xl shadow-md border-t-8 {{ $color['border'] }} border-x border-b border-slate-200 px-3 lg:px-4 py-3 text-center transition-all duration-300 flex flex-col items-center justify-center overflow-hidden" aria-labelledby="queue-call-{{ strtolower($serviceStatus['code']) }}-heading">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $color['badgeBg'] }} {{ $color['badgeText'] }} border {{ $color['badgeBorder'] }}">
+                            <span class="w-1.5 h-1.5 rounded-full {{ $isActive ? $color['dot'].' animate-pulse' : 'bg-slate-400' }}"></span>
                             <span>{{ $isActive ? 'Panggilan Antrean' : 'Panggilan Terakhir' }} {{ $serviceStatus['code'] }}</span>
                         </div>
 
-                        <h2 id="queue-call-{{ strtolower($serviceStatus['code']) }}-heading" class="mt-4 text-lg font-black uppercase tracking-wide {{ $isKtp ? 'text-orange-900' : 'text-emerald-900' }}">
+                        <h2 id="queue-call-{{ strtolower($serviceStatus['code']) }}-heading" class="mt-2 text-[13px] font-black uppercase tracking-wide {{ $color['title'] }} leading-tight line-clamp-2">
                             {{ $serviceStatus['name'] }}
                         </h2>
 
                         @if($serviceStatus['count'] > 1)
-                            <div class="grid {{ $serviceStatus['count'] === 2 ? 'grid-cols-2' : 'grid-cols-3' }} gap-2 mt-3 w-full">
+                            <div class="grid {{ $serviceStatus['count'] === 2 ? 'grid-cols-2' : 'grid-cols-3' }} gap-1.5 mt-2 w-full">
                                 @foreach($serviceStatus['numbers'] as $number)
-                                    <div class="rounded-xl border {{ $isKtp ? 'border-orange-200 bg-orange-50' : 'border-emerald-200 bg-emerald-50' }} px-2 py-2">
-                                        <span class="block text-[10px] font-bold uppercase tracking-widest {{ $isKtp ? 'text-orange-600' : 'text-emerald-600' }}">Nomor</span>
-                                        <span class="block mt-1 text-xl lg:text-2xl font-black font-mono leading-none {{ $isKtp ? 'text-orange-950' : 'text-emerald-950' }}">{{ $number }}</span>
+                                    <div class="rounded-lg border {{ $color['borderLight'] }} {{ $color['bgLight'] }} px-1.5 py-1.5">
+                                        <span class="block text-[9px] font-bold uppercase tracking-widest {{ $color['textLight'] }}">Nomor</span>
+                                        <span class="block mt-0.5 text-lg font-black font-mono leading-none {{ $color['number'] }}">{{ $number }}</span>
                                     </div>
                                 @endforeach
                             </div>
                         @else
-                            <p class="mt-3 font-black font-mono tracking-tight leading-none {{ $isKtp ? 'text-orange-950' : 'text-emerald-950' }}" style="font-size: clamp(2.5rem, 6vh, 4.2rem);">{{ $serviceStatus['display_number'] }}</p>
+                            <p class="mt-2 font-black font-mono tracking-tight leading-none {{ $color['number'] }}" style="font-size: clamp(1.8rem, 5vh, 3.4rem);">{{ $serviceStatus['display_number'] }}</p>
                         @endif
 
-                        <div class="mt-3 pt-3 border-t {{ $isKtp ? 'border-orange-100' : 'border-emerald-100' }} w-full shrink-0">
-                            <p class="text-xs font-semibold leading-none {{ $isActive ? ($isKtp ? 'text-orange-700' : 'text-emerald-700') : 'text-slate-500' }}">{{ $isActive ? 'Sedang Dilayani di Ruang Pelayanan' : $serviceStatus['status_label'] }}</p>
+                        <div class="mt-2 pt-2 border-t {{ $color['borderMuted'] }} w-full shrink-0">
+                            <p class="text-[11px] font-semibold leading-none {{ $isActive ? $color['muted'] : 'text-slate-500' }}">{{ $isActive ? 'Sedang Dilayani di Ruang Pelayanan' : $serviceStatus['status_label'] }}</p>
                         </div>
                     </section>
                 @empty
                     <div class="p-6 text-center rounded-2xl border border-slate-200 bg-white text-sm text-slate-500">
-                        Layanan antrean KTP dan IKD belum tersedia atau belum aktif.
+                        Layanan antrean KTP, Perekaman KTP, dan IKD belum tersedia atau belum aktif.
                     </div>
                 @endforelse
             </div>
